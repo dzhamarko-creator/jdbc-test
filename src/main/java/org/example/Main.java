@@ -1,4 +1,4 @@
-package main.java;
+package org.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,18 +6,19 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
+
+        String url = "jdbc:mysql://localhost:3306/northwind";
+        String user = "root";
+        String password = "Ttt123123123@";
+
         try {
-            // Loads MySQL JDBC Driver
+            // driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://localhost:3306/northwind";
-            String user = "root";
-            String password = "Sss123123"; //
-
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected successfully!");
 
-            connection.close();
+            conn.close();
 
         } catch (SQLException e) {
             System.out.println("SQL ERROR: " + e.getMessage());
