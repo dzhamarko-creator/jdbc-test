@@ -1,8 +1,6 @@
 package org.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,18 +10,29 @@ public class Main {
         String password = "Ttt123123123@";
 
         try {
-            // driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected successfully!");
 
+            String query = "SELECT productID, productName, unitPrice, unitsInStock FROM products";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                int id = rs.getInt("productID");
+                String name = rs.getString("productName");
+                double price = rs.getDouble("unitPrice");
+                int stock = rs.getInt("unitsInStock");
+
+                System.out.println(id + " | " + name + " | $" + price + " | Stock: " + stock);
+            }
+
+            rs.close();
+            stmt.close();
             conn.close();
 
-        } catch (SQLException e) {
-            System.out.println("SQL ERROR: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("JDBC DRIVER NOT FOUND: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
